@@ -8,7 +8,7 @@ import NavigationBarRouteMapper from "./NavigationBarRouteMapper";
 
 let pixelRatio = PixelRatio.get();
 
-export default class learnRN extends Component {
+export default class NavigatorSwitch extends Component {
   constructor(props) {
     super(props);
     this.touchtime=0;

@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import {
 	AppRegistry, StyleSheet, Text, View, PixelRatio, TouchableOpacity, Image
 } from 'react-native';
-var Image1 = require('./image/image1.jpg');
-var Image2 = require('./image/image2.jpg');
+var Image1 = require('../image/image1.jpg');
+var Image2 = require('../image/image2.jpg');
 let pixelRatio = PixelRatio.get();
 export default class ImageDisplayer extends Component {
 	changeScene = ()=>{
 		this.props.callback();
 		console.log('before push.');
 		// this.props.navigator.push({
-		// 	name: "1",
-		// 	UIIndex:this.props.UIIndex + 1,
-		// 	cbForLeftButton:this.props.cbForLeftButton
+			// name: "1",
+			// UIIndex:this.props.UIIndex + 1,
+			// cbForLeftButton:this.props.cbForLeftButton
 		// });
 	}
 	render() {
