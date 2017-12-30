@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './navigator/NavigatorBar.js';
+import App from './navigator/reactNavigator/stackNavigator.js';
 
 AppRegistry.registerComponent('learnRN', () => App);
