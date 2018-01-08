@@ -1,49 +1,40 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry, StyleSheet, Text, View, Dimensions, TextInput
+  StyleSheet, Text, View
 } from 'react-native';
-let widthOfMargin = Dimensions.get('window').width * 0.05;
-export default class LearnRN extends Component {
+
+export default class callbackFunc extends Component {
+  constructor(props) {
+    super(props);
+    this.onTouchMove = this.onTouchMove.bind(this);
+    this.onTouchStart = this.onTouchStart.bind(this);
+    this.onTouchEnd = this.onTouchEnd.bind(this);
+  }
+
+  onTouchMove(event) {
+    console.warn("touch move:" + event.timeStamp + ',X:' + event.nativeEvent.locationX + ',Y:' + event.nativeEvent.locationY);
+  }
+  onTouchStart(event) {
+    console.warn("touch start:" + event.timStamp + ',X:' + event.nativeEvent.locationX + ',Y:' + event.nativeEvent.locationY);
+  }
+  onTouchEnd(event) {
+    console.warn("touch end:" + event.timeStamp + ',X:' + event.nativeEvent.locationX + ':Y:' + event.nativeEvent.locationY);
+  }
+
   render() {
     return (
-        <View style={styles.container}>
-          <TextInput style={styles.textInputStyle}
-            placeholder={'请输入手机号'} />
-          <Text style={styles.textPromptStyle}>
-            您输入的手机号：
-          </Text>
-          <TextInput style={styles.textInputStyle}
-            placeholder={'请输入密码'}
-            password={true}/>
-          <Text style={styles.bigTextPrompt}>
-            确定
-          </Text>
-        </View>
-      );
+      <View style={styles.container}
+        onTouchStart={this.onTouchStart}
+        onTouchMove={this.onTouchMove}
+        onTouchEnd={this.onTouchEnd}>
+      </View>
+    );
   }
 }
 
-let styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
-  },
-  textInputStyle: {
-    margin: widthOfMargin,
-    backgroundColor: 'grey',
-    fontSize: 20
-  },
-  textPromptStyle: {
-    margin: widthOfMargin,
-    fontSize: 20
-  },
-  bigTextPrompt: {
-    margin: widthOfMargin,
-    backgroundColor: 'grey',
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 30
+    backgroundColor: '#F5FCFF'
   }
 });
-
-// AppRegistry.registerComponent('LeanrRN', () => LearnRN);
