@@ -1,0 +1,32 @@
+language: android
+# - tools
+# - platform-tools
+sudo: false
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in android/app/my-release-key.keystore.enc -out android/app/my-release-key.keystore -d
+  - nvm install 6
+  - node --version
+install: 
+  - npm install
+android:
+  components:
+  - build-tools-23.0.1
+  - android-23 
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - addon-google_apis-google-26
+cache:
+  directories:
+  - node_modules
+script:
+  - cd android
+  - ./gradlew assembleRelease 
+  - cd ./app/build/outputs/apk
+  - ls
+  - curl -F 'file=@app-release-1.0.apk' -F 'uKey=7d42c69844b88157360fe2dc141fdf1a' -F '_api_key=be1290e71bb2fab7a9547cda2ee37d7b' 'https://www.pgyer.com/apiv1/app/upload'
+
+  # - curl -F 'file=@android/app/build/outputs/apk/app-release-1.0.apk' -F 'uKey=7d42c69844b88157360fe2dc141fdf1a' -F '_api_key=be1290e71bb2fab7a9547cda2ee37d7b' 'https://www.pgyer.com/apiv1/app/upload'
+  # - curl -X "POST" "http://api.fir.im/apps" -H "Content-Type: application/json" -d "{\"type\":\"android\", \"bundle_id\":\"1.0\", \"api_token\":\"0cb38d024f8f6d24168bbf8b483ebd1b\"}"
+  # - curl -F "key=xxxxxx" -F "token=xxxxx" -F "file=@aa.apk" -F "x:name=aaaa" -F "x:version=a.b.c" -F "x:build=1" -F "x:release_type=Adhoc" -F "x:changelog=first" https://up.qbox.me
