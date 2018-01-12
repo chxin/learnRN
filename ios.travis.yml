@@ -1,0 +1,26 @@
+language: objective-c
+before_install: # if you would like to encrypt certificates, "travis encrypt-file ./***.cer  --add"   in your cml
+- openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in ./ios/RockCer/dist.p12.enc -out ./ios/RockCer/dist.p12 -d
+- openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in ./ios/RockCer/ios_distribution.cer.enc -out ./ios/RockCer/ios_distribution.cer -d
+install:
+- npm install
+before_script:
+- security create-keychain -p travis ios-build.keychain # add keychain ios-build
+- security default-keychain -s ios-build.keychain
+- security unlock-keychain -p travis ios-build.keychain
+
+- security import ./ios/RockCer/ios_distribution.cer -A -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign # cer p12 & provision
+- security import ./ios/RockCer/dist.p12 -A -k ~/Library/Keychains/ios-build.keychain -P 123456 -T /usr/bin/codesign
+- mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+- cp ./profile/hocEDisco.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+- security find-identity -p codesigning ~/Library/Keychains/ios-build.keychain #to confirm weither add keychain success
+- security list-keychains 
+script:
+- xcodebuild -project "./ios/learnRN.xcodeproj" -scheme "learnRN" archive -archivePath "./buildIOSTemp/learnRN_0.0.1.xcarchive" -quiet
+- xcodebuild -exportArchive -archivePath "./buildIOSTemp/learnRN_0.0.1.xcarchive" -exportPath "./buildIOSTemp/learnRN_0.0.1" -exportOptionsPlist "exportTestOptions.plist" -quiet
+- cd ./buildIOSTemp && ls -R
+- curl -F 'file=@learnRN_0.0.1/Apps/learnRN.ipa' -F 'uKey=7d42c69844b88157360fe2dc141fdf1a' -F '_api_key=be1290e71bb2fab7a9547cda2ee37d7b' 'https://www.pgyer.com/apiv1/app/upload'
+after_script: 
+- security delete-keychain ios-build.keychain #delete keychain
+- rm -f ~/Library/MobileDevice/Provisioning\ Profiles/hocEDisco.mobileprovision
