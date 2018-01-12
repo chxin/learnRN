@@ -33,3 +33,6 @@ deploy:
   on:
     tags: true
     repo: chxin/learnRN
+after_script: 
+  - cd ./app/build/outputs/apk
+  - ls
