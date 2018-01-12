@@ -25,7 +25,7 @@ script:
   - ./gradlew assembleRelease 
   - cd ./app/build/outputs/apk
   - ls
-  - curl -F 'file=@app-release-1.0.apk' -F 'uKey=7d42c69844b88157360fe2dc141fdf1a' -F '_api_key=be1290e71bb2fab7a9547cda2ee37d7b' 'https://www.pgyer.com/apiv1/app/upload'
+  - curl -F 'file=@app-release-unsigned.apk' -F 'uKey=7d42c69844b88157360fe2dc141fdf1a' -F '_api_key=be1290e71bb2fab7a9547cda2ee37d7b' 'https://www.pgyer.com/apiv1/app/upload'
   - cd -
 deploy:
   provider: releases
