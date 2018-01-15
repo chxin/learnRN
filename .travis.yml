@@ -1,7 +1,7 @@
 language: objective-c
 before_install: # if you would like to encrypt certificates, "travis encrypt-file ./***.cer  --add"   in your cml
-# - openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in ./ios/RockCer/dist.p12.enc -out ./ios/RockCer/dist.p12 -d
-# - openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in ./ios/RockCer/ios_distribution.cer.enc -out ./ios/RockCer/ios_distribution.cer -d
+# - openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in ./ios/RockCertificate/dist.p12.enc -out ./ios/RockCertificate/dist.p12 -d
+# - openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in ./ios/RockCertificate/ios_distribution.cer.enc -out ./ios/RockCertificate/ios_distribution.cer -d
 install:
 - npm install
 before_script:
@@ -9,8 +9,8 @@ before_script:
 - security default-keychain -s ios-build.keychain
 - security unlock-keychain -p travis ios-build.keychain
 
-- security import ./ios/RockCer/ios_distribution.cer -A -k ~/Library/Keychains/ios-build.keychain # cer p12 & provision
-- security import ./ios/RockCer/dist.p12 -A -k ~/Library/Keychains/ios-build.keychain -P 123456 
+- security import ./ios/RockCertificate/ios_distribution.cer -A -k ~/Library/Keychains/ios-build.keychain # cer p12 & provision
+- security import ./ios/RockCertificate/dist.p12 -A -k ~/Library/Keychains/ios-build.keychain -P 123456 
 - security set-key-partition-list -S apple-tool:,apple: -s -k ios-build.keychain
 - mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 - cp ./profile/hocEDisco.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
