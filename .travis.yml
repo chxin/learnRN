@@ -5,22 +5,22 @@ before_install: # if you would like to encrypt certificates, "travis encrypt-fil
 install:
 - npm install
 before_script:
-  - chmod +x ./ios/RockCer/add-key.sh
-  - cd ./ios/RockCer
-  - "./add-key.sh"
-  - cd -
-# - security create-keychain -p travis ios-build.keychain # add keychain ios-build
-# - security default-keychain -s ios-build.keychain
-# - security unlock-keychain -p travis ios-build.keychain
+  # - chmod +x ./ios/RockCer/add-key.sh
+  # - cd ./ios/RockCer
+  # - "./add-key.sh"
+  # - cd -
+- security create-keychain -p travis ios-build.keychain # add keychain ios-build
+- security default-keychain -s ios-build.keychain
+- security unlock-keychain -p travis ios-build.keychain
 
-# - security import ./ios/RockCertificate/ios_distribution.cer -A -k ~/Library/Keychains/ios-build.keychain # cer p12 & provision
-# - security import ./ios/RockCertificate/dist.p12 -A -k ~/Library/Keychains/ios-build.keychain -P 123456 
-# - security set-key-partition-list -S apple-tool:,apple: -s -k travis ios-build.keychain
-# - mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-# - cp ./profile/hocEDisco.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+- security import ./ios/RockCertificate/ios_distribution.cer -A -k ~/Library/Keychains/ios-build.keychain # cer p12 & provision
+- security import ./ios/RockCertificate/dist.p12 -A -k ~/Library/Keychains/ios-build.keychain -P 123456 
+- security set-key-partition-list -S apple-tool:,apple:-s -k travis ios-build.keychain
+- mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+- cp ./profile/hocEDisco.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
-# - security find-identity -p codesigning ~/Library/Keychains/ios-build.keychain #to confirm weither add keychain success
-# - security list-keychains 
+- security find-identity -p codesigning ~/Library/Keychains/ios-build.keychain #to confirm weither add keychain success
+- security list-keychains 
 script:
 - xcodebuild -project "./ios/learnRN.xcodeproj" -scheme "learnRN" archive -archivePath "./buildIOSTemp/learnRN_0.0.1.xcarchive" -quiet
 - xcodebuild -exportArchive -archivePath "./buildIOSTemp/learnRN_0.0.1.xcarchive" -exportPath "./buildIOSTemp/learnRN_0.0.1" -exportOptionsPlist "exportTestOptions.plist" -quiet
