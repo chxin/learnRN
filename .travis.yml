@@ -20,7 +20,7 @@ before_script:
 - security import ./ios/RockCertificate/dist.p12 -A -k ~/Library/Keychains/ios-build.keychain -P 123456 
 - security set-key-partition-list -S apple-tool:,apple:-s -k travis ios-build.keychain
 - mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-- cp ./profile/hocEDisco.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+- cp ./ios/RockCertificate/profile/hocEDisco.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
 - security find-identity -p codesigning ~/Library/Keychains/ios-build.keychain #to confirm weither add keychain success
 - security list-keychains 
