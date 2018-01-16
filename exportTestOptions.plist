@@ -11,8 +11,6 @@
 		<key>cn.com.schneider-electric.EDisco</key>
 		<string>hocEDisco</string>
 	</dict>
-	<key>signingCertificate</key>
-	<string>iPhone Distribution</string>
 	<key>signingStyle</key>
 	<string>manual</string>
 	<key>stripSwiftSymbols</key>
@@ -20,6 +18,6 @@
 	<key>teamID</key>
 	<string>F3A8R3FAA7</string>
 	<key>thinning</key>
-	<string>&lt;thin-for-all-variants&gt;</string>
+	<string>&lt;none&gt;</string>
 </dict>
 </plist>
