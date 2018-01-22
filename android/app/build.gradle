@@ -102,7 +102,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName ROCK_VERSION
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -118,12 +118,12 @@ android {
     signingConfigs {
        release {
            storeFile file("my-release-key.keystore")
-           storePassword "asdfghjkl;\'"
-           keyAlias 'my-key-alias'
-           keyPassword "asdfghjkl;\'"
-           //storePassword project.hasProperty("KEYSTORE_PASS") ? KEYSTORE_PASS : System.getenv("KEYSTORE_PASS")
-           //keyAlias project.hasProperty("ALIAS_NAME") ? ALIAS_NAME : System.getenv("ALIAS_NAME")
-           //keyPassword project.hasProperty("ALIAS_PASS") ? ALIAS_PASS : System.getenv("ALIAS_PASS")
+           // storePassword "asdfghjkl;\'"
+           // keyAlias 'my-key-alias'
+           // keyPassword "asdfghjkl;\'"
+           storePassword project.hasProperty("KEYSTORE_PASS") ? KEYSTORE_PASS : System.getenv("KEYSTORE_PASS")
+           keyAlias project.hasProperty("ALIAS_NAME") ? ALIAS_NAME : System.getenv("ALIAS_NAME")
+           keyPassword project.hasProperty("ALIAS_PASS") ? ALIAS_PASS : System.getenv("ALIAS_PASS")
        }
    }
     buildTypes {
