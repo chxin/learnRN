@@ -2,24 +2,32 @@ language: objective-c
 before_install: # if you would like to encrypt certificates, "travis encrypt-file ./***.cer  --add"   in your cml
 # - openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in ./ios/RockCertificate/dist.p12.enc -out ./ios/RockCertificate/dist.p12 -d
 # - openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv -in ./ios/RockCertificate/ios_distribution.cer.enc -out ./ios/RockCertificate/ios_distribution.cer -d
+
+- DevToolsSecurity -status
+- DevToolsSecurity -enable
 install:
 - npm install
 before_script:
+  # - chmod +x ./ios/RockCer/add-key.sh
+  # - cd ./ios/RockCer
+  # - "./add-key.sh"
+  # - cd -
 - security create-keychain -p travis ios-build.keychain # add keychain ios-build
 - security default-keychain -s ios-build.keychain
+- security lock-keychain -a
 - security unlock-keychain -p travis ios-build.keychain
-- security set-key-partition-list -S apple-tool:,apple: -s -k travis ios-build.keychain
 
 - security import ./ios/RockCertificate/ios_distribution.cer -A -k ~/Library/Keychains/ios-build.keychain # cer p12 & provision
 - security import ./ios/RockCertificate/dist.p12 -A -k ~/Library/Keychains/ios-build.keychain -P 123456 
+- security set-key-partition-list -S apple-tool:,apple:-s -k travis ios-build.keychain
 - mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-- cp ./profile/hocEDisco.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+- cp ./ios/RockCertificate/profile/hocEDisco.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
 - security find-identity -p codesigning ~/Library/Keychains/ios-build.keychain #to confirm weither add keychain success
 - security list-keychains 
 script:
 - xcodebuild -project "./ios/learnRN.xcodeproj" -scheme "learnRN" archive -archivePath "./buildIOSTemp/learnRN_0.0.1.xcarchive" -quiet
-- xcodebuild -exportArchive -archivePath "./buildIOSTemp/learnRN_0.0.1.xcarchive" -exportPath "./buildIOSTemp/learnRN_0.0.1" -exportOptionsPlist "exportTestOptions.plist" -quiet
+- xcodebuild -exportArchive -archivePath "./buildIOSTemp/learnRN_0.0.1.xcarchive" -exportPath "./buildIOSTemp/learnRN_0.0.1" -exportOptionsPlist "exportTestOptions.plist" 
 - cd ./buildIOSTemp && ls -R | grep ipa
 - curl -F 'file=@learnRN_0.0.1/Apps/learnRN.ipa' -F 'uKey=7d42c69844b88157360fe2dc141fdf1a' -F '_api_key=be1290e71bb2fab7a9547cda2ee37d7b' 'https://www.pgyer.com/apiv1/app/upload'
 after_script: 
@@ -34,4 +42,3 @@ deploy:
   on:
     tags: true
     repo: chxin/learnRN
-    
