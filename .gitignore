@@ -23,6 +23,7 @@ DerivedData
 project.xcworkspace
 *.p12
 *.cer
+*.mobileprovision
 
 # Android/IntelliJ
 #

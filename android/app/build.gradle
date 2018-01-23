@@ -117,13 +117,14 @@ android {
     }
     signingConfigs {
        release {
-           storeFile file("my-release-key.keystore")
+           // storeFile file('learnRN.keystore')
            // storePassword "asdfghjkl;\'"
-           // keyAlias 'my-key-alias'
-           // keyPassword "asdfghjkl;\'"
-           storePassword project.hasProperty("KEYSTORE_PASS") ? KEYSTORE_PASS : System.getenv("KEYSTORE_PASS")
-           keyAlias project.hasProperty("ALIAS_NAME") ? ALIAS_NAME : System.getenv("ALIAS_NAME")
-           keyPassword project.hasProperty("ALIAS_PASS") ? ALIAS_PASS : System.getenv("ALIAS_PASS")
+           // keyAlias 'learnRN'
+           // keyPassword 'learnRN'
+           storeFile file(project.hasProperty("learnRN_RELEASE_STORE_FILE") ? learnRN_RELEASE_STORE_FILE : System.getenv("learnRN_RELEASE_STORE_FILE"))
+           keyAlias project.hasProperty("learnRN_RELEASE_KEY_ALIAS") ? learnRN_RELEASE_KEY_ALIAS : System.getenv("learnRN_RELEASE_KEY_ALIAS")
+           storePassword  project.hasProperty("learnRN_RELEASE_STORE_PASSWORD") ? learnRN_RELEASE_STORE_PASSWORD : System.getenv("learnRN_RELEASE_STORE_PASSWORD")
+           keyPassword project.hasProperty("learnRN_RELEASE_KEY_PASSWORD") ? learnRN_RELEASE_KEY_PASSWORD : System.getenv("learnRN_RELEASE_KEY_PASSWORD")
        }
    }
     buildTypes {

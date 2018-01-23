@@ -1,8 +1,14 @@
 language: android
 sudo: false
 before_install:
-- openssl aes-256-cbc -K $encrypted_19987b880ea5_key -iv $encrypted_19987b880ea5_iv
-  -in android/app/my-release-key.keystore.enc -out android/app/my-release-key.keystore -d
+- openssl aes-256-cbc -K $encrypted_5a1aea71520d_key -iv $encrypted_5a1aea71520d_iv
+  -in ios/certificate/profile/hocEDisco.mobileprovision.enc -out ios/certificate/profile/hocEDisco.mobileprovision -d
+- openssl aes-256-cbc -K $encrypted_5a1aea71520d_key -iv $encrypted_5a1aea71520d_iv
+  -in ios/certificate/ios_distribution.cer.enc -out ios/certificate/ios_distribution.cer -d
+- openssl aes-256-cbc -K $encrypted_5a1aea71520d_key -iv $encrypted_5a1aea71520d_iv
+  -in ios/certificate/dist.p12.enc -out ios/certificate/dist.p12 -d
+- openssl aes-256-cbc -K $encrypted_94c66b6c50f1_key -iv $encrypted_94c66b6c50f1_iv
+  -in android/app/learnRN.keystore.enc -out android/app/learnRN.keystore -d
 - nvm install 6
 - node --version
 install:
@@ -23,13 +29,13 @@ script:
 - "./gradlew assembleRelease"
 - cd ./app/build/outputs/apk
 - ls
-- curl -F 'file=@app-release-1.0.apk' -F 'uKey=7d42c69844b88157360fe2dc141fdf1a'
+- curl -F 'file=@app-release-1.0.0.apk' -F 'uKey=7d42c69844b88157360fe2dc141fdf1a'
   -F '_api_key=be1290e71bb2fab7a9547cda2ee37d7b' 'https://www.pgyer.com/apiv1/app/upload'
 deploy:
   provider: releases
   api_key:
     secure: aNqSDxJGeHYXt01UQ4gExd4PgP5l3cd2mFzfyXpTTipQTVi0SmNr3tjxE6zIf2chU0zc2PrSrGoIG6YcUshFkEN4baKOkVRXzq19CIz5DHjAO4O5tDY9A21Rs4S5b5ofdKNyxCrJDgH4gP2jIzfytelcaXLhF3MGmyhT5HM2eS6CXeqjX/+Nne16IwJhz6m1QqaKdQefv18b33fLvzKgM6oD11R9S0JTX6y/nAU/ceFjEf2RcLRBmRvJMyq7VXWgVLNtg3YjsyWpDMykXwlLzVm6LsAFFyP/VbEuoYOIEvKDyYWYtJEIcEjwqGsuX14cScH5p0ZrXGrHeGFmj4sT8BuqAlmCO2vuzjg62pEFecvwkb8Jmciqy0qXjDIkETrCsTt310Klp1JmwHFx2AB8GU8d+xWFQiH3Z9MGnU2q3CHKgqi4+iSi4agukf3d6PeT2PDedJaLVQwMwOyFYd3YF2DlR/Qx4I32LyME9UCdqm1OFFD33ArlGfx6ssZM1INatsNfx/dwC4wlkICIHN1jt2HmdaIwXjvmRwRXRLcxOOtYMax65902liH1n9XAe/izAkqXQo4pZG67j+sQYBu5uwof5XCIDor20BI9S0pZ1JFLXPqZPeAot50w8YGwKrDJ0RWRAE2CkU6g+DF6uiDyv8KXhDBVRPJ8mO7BpAUkTas=
-  file: app-release-unsigned.apk
+  file: app-release-1.0.0.apk
   skip_cleanup: true
   on:
     tags: true
